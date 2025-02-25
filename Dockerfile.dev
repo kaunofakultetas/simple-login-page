@@ -1,0 +1,8 @@
+FROM node:23.6.0-alpine
+
+WORKDIR /app
+
+ENV PORT 80
+EXPOSE 80
+# CMD ["sleep", "infinity"]
+CMD ["npm", "run", "dev"]
