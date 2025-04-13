@@ -1,8 +1,7 @@
 # Simple Login Page
 Sometimes there is a need to add a simple and weak authentication for resources that you dont really care about but still want to protect from internet and prying eyes. One of the examples would be a system which is prepared for students to work in laboratory environment for which password later will be disclosed for students anyway.
 
-<img width="1250" alt="Screenshot 2025-02-25 at 08 58 43" src="https://github.com/user-attachments/assets/53955661-6a5d-4b28-86a0-fc7c77f9fb23" />
-
+<img width="1250" alt="" src="https://github.com/user-attachments/assets/5800101f-6a7b-4788-9a18-20bf55fffecf" />
 
 
 ## How it works
