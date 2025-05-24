@@ -16,7 +16,7 @@ Run these commands and you can try it out:
 ```bash
 git clone https://github.com/kaunofakultetas/simple-login-page
 cd simple-login-page
-sudo docker build -t simple-login-page --build-arg VITE_SYSTEM_NAME="Failų dalijimosi<br/>sistema" -f Dockerfile.prod ./
+sudo docker build -t simple-login-page --build-arg VITE_SYSTEM_NAME="Failų dalijimosi<br/>sistema" -f Dockerfile ./
 sudo docker run -it --rm -p 8080:80 simple-login-page
 ```
 
