@@ -8,4 +8,4 @@ sudo docker build -t $CONTAINER_NAME .
 sudo docker tag $CONTAINER_NAME vuknf/$CONTAINER_NAME:latest
 sudo docker tag $CONTAINER_NAME vuknf/$CONTAINER_NAME:$TODAY
 sudo docker push vuknf/$CONTAINER_NAME:latest
-sudo docker push vuknf/$CONTAINER_NAME:$TODA
+sudo docker push vuknf/$CONTAINER_NAME:$TODAY
