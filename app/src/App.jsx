@@ -63,8 +63,19 @@ function LoginForm() {
       window.history.pushState({}, "", "/");
       window.location.assign("/");
     }, 100);
-
   }
+
+
+
+  // Fetch system name from Caddy server
+  const [systemName, setSystemName] = useState("");
+  useEffect(() => {
+    fetch("/app/title")
+      .then(response => response.text())
+      .then(data => setSystemName(data))
+      .catch(error => console.error("Error fetching system name:", error));
+  }, []);
+
 
 
   // Handle user pressing Enter, calling our login logic
@@ -79,16 +90,18 @@ function LoginForm() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [password]);
 
+
+  
   return (
     <div style={styles.loginForm}>
       <img alt="VUKnF Logo" src="/img/vuknflogo.png" style={styles.logo} />
 
       <Box style={styles.centeredText}>
         <Typography component="h1" fontSize="1.1em" mb="0.25em">
-          {import.meta.env.VITE_SYSTEM_NAME?.split('<br/>').map((part, index) => (
+          {systemName?.split('<br/>').map((part, index) => (
             <React.Fragment key={index}>
               {part}
-              {index < import.meta.env.VITE_SYSTEM_NAME.split('<br/>').length - 1 && <br/>}
+              {index < systemName.split('<br/>').length - 1 && <br/>}
             </React.Fragment>
           ))}
         </Typography>

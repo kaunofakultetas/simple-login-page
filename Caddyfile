@@ -1,5 +1,13 @@
 :80 {
-    root * /app/dist
-    try_files {path} /index.html
-    file_server
+
+    handle /app/title {
+        header Content-Type text/plain
+        respond "{env.VITE_SYSTEM_NAME}" 200
+    }
+
+    handle {
+        root * /app/dist
+        try_files {path} /index.html
+        file_server
+    }
 }
