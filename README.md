@@ -11,7 +11,8 @@ This system is GUI only. This web app adds simply a cookie in the browser named 
 
 ## How to test
 
-First of all you will need docker installed in your system. \
+First of all you will need docker installed in your system.
+
 ### 1) Run these commands to clone the repository:
 ```bash
 git clone https://github.com/kaunofakultetas/simple-login-page
