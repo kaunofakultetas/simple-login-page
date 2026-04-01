@@ -1,10 +1,9 @@
-FROM node:23.6.0-alpine AS builder
+FROM node:24.2.0-alpine AS builder
 
 WORKDIR /app
 
 # Copy application source code
 COPY app /app
-RUN rm -rf node_modules dist
 
 # Install dependencies and build
 RUN npm install
@@ -16,7 +15,7 @@ RUN npm run build
 ################################
 ##### Production container #####
 ################################
-FROM caddy:2.9.1-alpine AS prod
+FROM caddy:2.11-alpine AS prod
 
 WORKDIR /app
 
