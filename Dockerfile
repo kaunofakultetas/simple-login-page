@@ -7,7 +7,6 @@ COPY app /app
 
 # Install dependencies and build
 RUN npm install
-ARG VITE_SYSTEM_NAME
 RUN npm run build
 
 

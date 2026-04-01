@@ -12,12 +12,22 @@ This system is GUI only. This web app adds simply a cookie in the browser named 
 ## How to test
 
 First of all you will need docker installed in your system. \
-Run these commands and you can try it out:
+### 1) Run these commands to clone the repository:
 ```bash
 git clone https://github.com/kaunofakultetas/simple-login-page
 cd simple-login-page
-sudo docker build -t simple-login-page --build-arg VITE_SYSTEM_NAME="Failų dalijimosi<br/>sistema" -f Dockerfile ./
-sudo docker run -it --rm -p 8080:80 simple-login-page
+```
+
+### 2.1) Build and try the production build:
+```bash
+sudo docker build -t simple-login-page -f Dockerfile ./
+sudo docker run -it --rm --env VITE_SYSTEM_NAME="Failų dalijimosi<br/>sistema" -p 8080:80 simple-login-page
+```
+
+### 2.2) Or build and try the development build:
+```bash
+sudo docker build -t simple-login-page -f Dockerfile.dev ./
+sudo docker run -it --rm --env VITE_SYSTEM_NAME="Failų dalijimosi<br/>sistema" -v ./app:/app -p 8080:80 simple-login-page
 ```
 
 And open the 8080 port in the browser.
