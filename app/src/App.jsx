@@ -21,8 +21,16 @@
 //  the title's Typography. The button hovers to the VU accent
 //  #E64164, the same hover the faucet app uses.
 //
+//  After a login the page returns the user to the page they
+//  originally wanted: the ?redirect= argument when the proxy
+//  put one on the URL, otherwise the URL the form is standing
+//  on (the proxy serves this SPA on EVERY unauthenticated
+//  path, so that URL is the wanted page itself). Only
+//  same-origin paths are accepted — see redirectTarget.
+//
 //  Split into (root component last):
 //
+//    redirectTarget                — where to land after login
 //    setAppPasswordCookieAndReload — the "login" itself
 //    SystemTitle                   — the fetched name, <br/> aware
 //    LoginForm                     — the white card
@@ -45,16 +53,51 @@ import { Button, TextField, Typography } from "@mui/material";
 
 
 // -----------------------------------------------------------
+// redirectTarget
+// -----------------------------------------------------------
+//
+// Where to send the user after a successful login: the
+// ?redirect= argument when the reverse proxy put one on the
+// URL, otherwise the URL the login form is standing on (the
+// proxy serves this SPA on every unauthenticated path, so
+// that IS the page the user wanted). Only a same-origin path
+// is accepted — one leading slash, so "//evil.example" and
+// full URLs fall through to "/" instead of letting a crafted
+// login link bounce the user to a foreign site.
+//
+// Used by:
+//   - setAppPasswordCookieAndReload (below)
+// -----------------------------------------------------------
+
+function redirectTarget() {
+  const requested = new URLSearchParams(window.location.search).get('redirect')
+    || window.location.pathname + window.location.search;
+
+  if (requested.startsWith('/') && !requested.startsWith('//')) {
+    return requested;
+  }
+  return '/';
+}
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------
 // setAppPasswordCookieAndReload
 // -----------------------------------------------------------
 //
 // The entire "login": write the password into the app-password
 // cookie — uppercased (passwords are case-insensitive; the
 // proxy compares uppercase), plain text by design, valid for
-// 3 hours — then hard-navigate to "/", where the reverse proxy
-// either lets the request through or serves this page again.
-// The 100 ms delay gives the cookie write time to settle
-// before the navigation.
+// 3 hours — then hard-navigate to the page the user wanted
+// (redirectTarget above), where the reverse proxy either lets
+// the request through or serves this page again. The 100 ms
+// delay gives the cookie write time to settle before the
+// navigation.
 //
 // Used by:
 //   - LoginForm (below) — the button and the Enter key
@@ -64,8 +107,9 @@ function setAppPasswordCookieAndReload(password) {
   document.cookie = `app-password=${encodeURIComponent(password.toUpperCase())};path=/;expires=${new Date(Date.now() + 3 * 60 * 60 * 1000).toUTCString()};`;
 
   setTimeout(() => {
-    window.history.pushState({}, "", "/");
-    window.location.assign("/");
+    const target = redirectTarget();
+    window.history.pushState({}, "", target);
+    window.location.assign(target);
   }, 100);
 }
 
